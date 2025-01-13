@@ -42,6 +42,7 @@ fun InputLinkComponent(
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focusRequester),
+        maxLines = 6,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         trailingIcon = {
             if (value.isNotEmpty()) {

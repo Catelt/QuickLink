@@ -17,7 +17,9 @@ fun QuickLinkScreen(
     viewModel: QuickLinkViewModel,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding(),
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.app_name)) })
         }
@@ -27,7 +29,7 @@ fun QuickLinkScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
         ) {
             val uiState by viewModel.uiState.collectAsState()
 
