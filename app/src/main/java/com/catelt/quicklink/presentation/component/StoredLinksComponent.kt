@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StoredLinksComponent(
+    modifier: Modifier = Modifier,
     data: List<String>,
     onPlayClick: (String) -> Unit,
     onCopyToClipboardClick: (String) -> Unit,
@@ -23,7 +24,9 @@ fun StoredLinksComponent(
 
     val links = data.reversed()
 
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier
+    ) {
         items(links.size) { index ->
             val link = links[index]
             StoredLinkItem(

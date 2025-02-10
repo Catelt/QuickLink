@@ -14,9 +14,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.catelt.quicklink.data.QuickLinkDataStore
 import com.catelt.quicklink.data.QuickLinkDataStoreImpl
-import com.catelt.quicklink.presentation.QuickLinkEvent
-import com.catelt.quicklink.presentation.QuickLinkScreen
-import com.catelt.quicklink.presentation.QuickLinkViewModel
+import com.catelt.quicklink.presentation.MainScreen
+import com.catelt.quicklink.presentation.viewmodel.QuickLinkEvent
+import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import com.catelt.quicklink.ui.theme.QuickLinkTheme
 import kotlinx.coroutines.launch
 
@@ -42,14 +42,14 @@ class MainActivity : ComponentActivity() {
 
                     is QuickLinkEvent.CopyToClipboard -> handleCopyToClipboard(event.url)
 
-                    is QuickLinkEvent.ShowError -> showError(event.message)
+                    is QuickLinkEvent.ShowToast -> showToast(event.message)
                 }
             }
         }
 
         setContent {
             QuickLinkTheme {
-                QuickLinkScreen(viewModel = quickLinkViewModel)
+                MainScreen(viewModel = quickLinkViewModel)
             }
         }
     }
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
             return true
         } catch (e: Exception) {
-            showError("Invalid URL or no app to handle it!")
+            showToast("Invalid URL or no app to handle it!")
         }
         return false
     }
@@ -75,12 +75,12 @@ class MainActivity : ComponentActivity() {
             clipboard.setPrimaryClip(clip)
             return true
         } catch (e: Exception) {
-            showError("Copy to Clipboard Failed!")
+            showToast("Copy to Clipboard Failed!")
         }
         return false
     }
 
-    private fun showError(message: String) {
+    private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
