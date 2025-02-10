@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation
+package com.catelt.quicklink.presentation.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +30,6 @@ class QuickLinkViewModel(
     var deeplinkInput by mutableStateOf("")
         private set
 
-
     init {
         loadLinksLocal()
     }
@@ -41,7 +40,7 @@ class QuickLinkViewModel(
 
     fun copyToClipboard(url: String) {
         if (url.isBlank()) {
-            _quickLinkEvent.tryEmit(QuickLinkEvent.ShowError("URL cannot be empty"))
+            showToast("URL cannot be empty")
         } else {
             _quickLinkEvent.tryEmit(QuickLinkEvent.CopyToClipboard(url))
         }
@@ -65,6 +64,12 @@ class QuickLinkViewModel(
         removeLinkLocal(value)
     }
 
+    fun showToast(title: String){
+        viewModelScope.launch {
+            _quickLinkEvent.emit(QuickLinkEvent.ShowToast(title))
+        }
+    }
+
     fun openLink() {
         val url = deeplinkInput
         openSpecificLink(url)
@@ -72,7 +77,7 @@ class QuickLinkViewModel(
 
     fun openSpecificLink(url: String) {
         if (url.isBlank()) {
-            _quickLinkEvent.tryEmit(QuickLinkEvent.ShowError("URL cannot be empty"))
+            showToast("URL cannot be empty")
         } else {
             _quickLinkEvent.tryEmit(QuickLinkEvent.OpenLink(url))
         }
@@ -107,13 +112,5 @@ class QuickLinkViewModel(
                 }
             }
         }
-
-//        val Factory: ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-////                val savedStateHandle = createSavedStateHandle()
-////                val myRepository = (this[APPLICATION_KEY] as MyApplication).myRepository
-//                QuickLinkViewModel()
-//            }
-//        }
     }
 }
