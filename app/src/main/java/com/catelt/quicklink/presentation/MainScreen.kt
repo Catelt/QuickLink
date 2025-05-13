@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.catelt.quicklink.R
 import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
 import com.catelt.quicklink.presentation.model.Screen
 import com.catelt.quicklink.presentation.qr_code.QrCodeScreen
@@ -47,6 +46,7 @@ fun MainScreen(viewModel: QuickLinkViewModel) {
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
+        gesturesEnabled = false,
         drawerState = drawerState,
         drawerContent = {
             DrawerContent(
@@ -96,20 +96,15 @@ fun DrawerContent(
         modifier = Modifier.sizeIn(maxWidth = 230.dp)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        DrawerItem(
-            "Quick Links",
-            R.drawable.baseline_deeplink,
-            Screen.Deeplink,
-            selectedScreen,
-            onSelectScreen
-        )
-        DrawerItem(
-            "QR Code",
-            R.drawable.baseline_qr_code,
-            Screen.QrCode,
-            selectedScreen,
-            onSelectScreen
-        )
+        Screen.entries.forEach { screen ->
+            DrawerItem(
+                screen.title,
+                screen.icon,
+                screen,
+                selectedScreen,
+                onSelectScreen
+            )
+        }
     }
 }
 

@@ -4,13 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.catelt.quicklink.data.QuickLinkDataStore
 import com.catelt.quicklink.data.QuickLinkDataStoreImpl
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
     private fun handleDeepLink(url: String): Boolean {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             startActivity(intent)
             return true
         } catch (e: Exception) {
