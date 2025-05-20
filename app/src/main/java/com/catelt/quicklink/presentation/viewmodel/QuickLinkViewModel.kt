@@ -46,6 +46,14 @@ class QuickLinkViewModel(
         }
     }
 
+    fun shareText(text: String) {
+        if (text.isBlank()) {
+            showToast("Text cannot be empty")
+        } else {
+            _quickLinkEvent.tryEmit(QuickLinkEvent.ShareText(text))
+        }
+    }
+
     fun saveLink(value: String) {
         val newLinks = _uiState.value.links.toMutableList()
         newLinks.remove(value)

@@ -76,6 +76,14 @@ dependencies {
 
     implementation(libs.google.gson)
 
+    // CameraX
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+
+    // ML Kit for barcode scanning
+    implementation(libs.barcode.scanning)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

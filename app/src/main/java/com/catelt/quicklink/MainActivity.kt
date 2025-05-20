@@ -42,6 +42,8 @@ class MainActivity : ComponentActivity() {
 
                     is QuickLinkEvent.CopyToClipboard -> handleCopyToClipboard(event.url)
 
+                    is QuickLinkEvent.ShareText -> handleShareText(event.text)
+
                     is QuickLinkEvent.ShowToast -> showToast(event.message)
                 }
             }
@@ -73,9 +75,26 @@ class MainActivity : ComponentActivity() {
                     ?: throw Exception("Clipboard null")
             val clip = ClipData.newPlainText("URL", url)
             clipboard.setPrimaryClip(clip)
+            showToast("Copied to clipboard!")
             return true
         } catch (e: Exception) {
             showToast("Copy to Clipboard Failed!")
+        }
+        return false
+    }
+
+    private fun handleShareText(text: String): Boolean {
+        try {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, text)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+            return true
+        } catch (e: Exception) {
+            showToast("Share Text Failed!")
         }
         return false
     }
