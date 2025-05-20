@@ -1,5 +1,7 @@
 [versions]
 agp = "8.7.3"
+barcodeScanning = "17.3.0"
+cameraCamera2 = "1.4.2"
 zxing-core = "3.5.1"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -13,7 +15,11 @@ datastore = "1.1.2"
 gson = "2.11.0"
 
 [libraries]
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCamera2" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCamera2" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxing-core" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

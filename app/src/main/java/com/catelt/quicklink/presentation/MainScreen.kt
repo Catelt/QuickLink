@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
 import com.catelt.quicklink.presentation.model.Screen
 import com.catelt.quicklink.presentation.qr_code.QrCodeScreen
+import com.catelt.quicklink.presentation.scanqr.ScanQRScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
 
@@ -81,6 +82,7 @@ fun MainScreen(viewModel: QuickLinkViewModel) {
                 when (selectedScreen) {
                     Screen.Deeplink -> DeeplinkScreen(viewModel)
                     Screen.QrCode -> QrCodeScreen(viewModel)
+                    Screen.ScanQr -> ScanQRScreen(viewModel)
                 }
             }
         }

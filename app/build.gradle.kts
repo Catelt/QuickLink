@@ -19,8 +19,8 @@ android {
         applicationId = "com.catelt.quicklink"
         minSdk = 24
         targetSdk = 35
-        versionCode = 100
-        versionName = "1.3"
+        versionCode = 101
+        versionName = "1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -75,6 +75,14 @@ dependencies {
     implementation(libs.androidx.datastore)
 
     implementation(libs.google.gson)
+
+    // CameraX
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+
+    // ML Kit for barcode scanning
+    implementation(libs.barcode.scanning)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
