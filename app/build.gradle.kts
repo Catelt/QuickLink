@@ -19,8 +19,8 @@ android {
         applicationId = "com.catelt.quicklink"
         minSdk = 24
         targetSdk = 35
-        versionCode = 101
-        versionName = "1.4"
+        versionCode = 102
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -83,6 +83,9 @@ dependencies {
 
     // ML Kit for barcode scanning
     implementation(libs.barcode.scanning)
+
+    implementation(libs.okhttp)
+    implementation(libs.androidx.work.runtime.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
