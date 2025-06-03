@@ -84,6 +84,9 @@ dependencies {
     // ML Kit for barcode scanning
     implementation(libs.barcode.scanning)
 
+    implementation(libs.okhttp)
+    implementation(libs.androidx.work.runtime.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
