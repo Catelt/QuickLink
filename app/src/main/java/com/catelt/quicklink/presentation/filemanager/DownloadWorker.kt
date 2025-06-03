@@ -69,7 +69,6 @@ class DownloadWorker(context: Context, params: WorkerParameters) :
             Result.failure(
                 Data.Builder().putString(KEY_RESULT_ERROR, errorMessage).build()
             )
-            Result.failure()
         }
     }
 

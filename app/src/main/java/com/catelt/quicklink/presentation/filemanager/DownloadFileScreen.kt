@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -93,6 +95,7 @@ fun DownloadFileScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -109,7 +112,11 @@ fun DownloadFileScreen(
                 },
                 label = "URL",
                 placeholder = "Enter URL",
+                autoFocus = false,
+                maxLines = 6,
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             BaseOutlinedTextField(
                 value = filename,
@@ -118,7 +125,9 @@ fun DownloadFileScreen(
                 },
                 label = "Filename",
                 placeholder = "Enter filename with extension",
+                autoFocus = false,
                 showTrailingIcon = false,
+                maxLines = 2,
             )
 
             Spacer(modifier = Modifier.height(16.dp))

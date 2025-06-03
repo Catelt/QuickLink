@@ -23,12 +23,15 @@ fun BaseOutlinedTextField(
     placeholder: String? = null,
     maxLines: Int = 1,
     showTrailingIcon: Boolean = true,
+    autoFocus: Boolean = true,
     onValueChange: (String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+        if (autoFocus) {
+            focusRequester.requestFocus()
+        }
     }
 
     OutlinedTextField(
