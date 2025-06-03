@@ -174,8 +174,8 @@ fun ScanQRScreen(
                 onCopyToClipboard = { text ->
                     viewModel.copyToClipboard(text)
                 },
-                onShare = { text ->
-                    viewModel.shareText(text)
+                onOpenLink = { text ->
+                    viewModel.openSpecificLink(text)
                 },
                 onScanAgain = {},
                 onDismiss = {

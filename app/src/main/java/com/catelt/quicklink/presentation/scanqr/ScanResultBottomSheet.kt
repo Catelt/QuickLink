@@ -34,7 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 fun ScanResultBottomSheet(
     lastScannedCode: String?,
     onCopyToClipboard: (String) -> Unit,
-    onShare: (String) -> Unit,
+    onOpenLink: (String) -> Unit,
     onScanAgain: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -100,12 +100,12 @@ fun ScanResultBottomSheet(
                 Button(
                     onClick = {
                         lastScannedCode?.let { code ->
-                            onCopyToClipboard.invoke(code)
+                            onOpenLink(code)
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Copy to clipboard")
+                    Text("Open Link")
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -113,12 +113,12 @@ fun ScanResultBottomSheet(
                 Button(
                     onClick = {
                         lastScannedCode?.let { code ->
-                            onShare(code)
+                            onCopyToClipboard.invoke(code)
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Share")
+                    Text("Copy to clipboard")
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
