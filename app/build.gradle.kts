@@ -19,8 +19,8 @@ android {
         applicationId = "com.catelt.quicklink"
         minSdk = 24
         targetSdk = 35
-        versionCode = 102
-        versionName = "1.5"
+        versionCode = 103
+        versionName = "1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
