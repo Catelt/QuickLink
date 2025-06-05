@@ -146,9 +146,7 @@ fun DownloadFileScreen(
                             }
 
                             // Check and request permission if needed
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission.value
-                                || !hasStoragePermission.value
-                            ) {
+                            if (!hasNotificationPermission.value || !hasStoragePermission.value) {
                                 permissionLauncher.launch(requiredPermissions)
                                 return@Button
                             }

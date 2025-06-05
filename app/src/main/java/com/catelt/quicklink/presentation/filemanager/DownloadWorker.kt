@@ -37,6 +37,7 @@ class DownloadWorker(context: Context, params: WorkerParameters) :
     }
 
     private val notificationId: Int = params.id.hashCode()
+    private var currentForegroundInfo: ForegroundInfo? = null
 
     init {
         if (!channelCreated) {
@@ -185,6 +186,10 @@ class DownloadWorker(context: Context, params: WorkerParameters) :
         }
     }
 
+    override suspend fun getForegroundInfo(): ForegroundInfo {
+        return currentForegroundInfo ?: createForegroundInfo()
+    }
+
     /**
      * Creates a [ForegroundInfo] object for the download worker's ongoing notification.
      * This notification is used to keep the worker running in the foreground, indicating
@@ -227,7 +232,7 @@ class DownloadWorker(context: Context, params: WorkerParameters) :
                 .setProgress(maxProgress, progress, false)
                 .build()
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ForegroundInfo(
                 notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
@@ -237,6 +242,8 @@ class DownloadWorker(context: Context, params: WorkerParameters) :
                 notification,
             )
         }
+        currentForegroundInfo = info
+        return info
     }
 
 
