@@ -1,5 +1,6 @@
 package com.catelt.quicklink.utils
 
+import android.util.Log
 import com.catelt.quicklink.presentation.component.DynamicFeature
 import com.catelt.quicklink.presentation.component.DynamicFeatureComposable
 import kotlin.reflect.full.createInstance
@@ -20,6 +21,7 @@ object DynamicFeatureFactory {
     ): DynamicFeatureComposable? {
         return try {
             // Try to load the implementation from the dynamic module
+            Log.e("Hello", dynamicFeature.implementationClassName)
             val implementationClass = Class.forName(dynamicFeature.implementationClassName)
             implementationClass.kotlin.createInstance() as DynamicFeatureComposable
         } catch (e: ClassNotFoundException) {

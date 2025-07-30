@@ -20,7 +20,9 @@
         <dist:fusing dist:include="true" />
     </dist:module>
 
-    <application android:icon="@mipmap/ic_launcher">
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:hasCode="false">
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"
             android:foregroundServiceType="dataSync"
