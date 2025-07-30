@@ -12,8 +12,8 @@ android {
         applicationId = "com.catelt.quicklink"
         minSdk = Dependencies.minSdk
         targetSdk = Dependencies.targetSdk
-        versionCode = 103
-        versionName = "1.6"
+        versionCode = 104
+        versionName = "1.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
