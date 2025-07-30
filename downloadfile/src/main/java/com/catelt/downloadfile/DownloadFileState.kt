@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.filemanager
+package com.catelt.downloadfile
 
 sealed class DownloadFileState {
     data object Idle : DownloadFileState()

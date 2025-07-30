@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/deeplink" />
+            <option value="$PROJECT_DIR$/downloadfile" />
             <option value="$PROJECT_DIR$/qrcode" />
             <option value="$PROJECT_DIR$/scanqr" />
           </set>

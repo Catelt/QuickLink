@@ -23,5 +23,10 @@ enum class DynamicFeature(
         moduleName = "qrcode",
         featureName = "QR Code Generator",
         implementationClassName = "com.catelt.qrcode.QrCodeImpl"
+    ),
+    DOWNLOAD_FILE(
+        moduleName = "downloadfile",
+        featureName = "File Downloader",
+        implementationClassName = "com.catelt.downloadfile.DownloadFileImpl"
     )
 } 

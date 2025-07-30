@@ -25,18 +25,18 @@ android {
         }
     }
 
-    dynamicFeatures += setOf(":scanqr", ":deeplink", ":qrcode")
+    dynamicFeatures += setOf(":scanqr", ":deeplink", ":qrcode", ":downloadfile")
 }
 
 dependencies {
     implementation("com.google.zxing:core:${Dependencies.Versions.zxingCore}")
     implementation("androidx.datastore:datastore-preferences:${Dependencies.Versions.datastore}")
     implementation("com.google.code.gson:gson:${Dependencies.Versions.gson}")
-    
-    implementation("com.squareup.okhttp3:okhttp:${Dependencies.Versions.okhttp}")
-    implementation("androidx.work:work-runtime-ktx:${Dependencies.Versions.workRuntimeKtx}")
-    
+
     // Dynamic feature modules
     implementation("com.google.android.play:feature-delivery:${Dependencies.Versions.featureDelivery}")
     implementation(kotlin("reflect"))
+
+    implementation("androidx.concurrent:concurrent-futures-ktx:1.3.0")
+    implementation("androidx.tracing:tracing-ktx:1.3.0")
 }

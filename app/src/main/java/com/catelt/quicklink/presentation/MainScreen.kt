@@ -34,8 +34,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.catelt.quicklink.presentation.component.DynamicFeature
 import com.catelt.quicklink.presentation.component.DynamicFeatureWrapper
-import com.catelt.quicklink.presentation.filemanager.DownloadFileScreen
-import com.catelt.quicklink.presentation.filemanager.DownloadFileViewModel
 import com.catelt.quicklink.presentation.model.Screen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
@@ -44,7 +42,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     viewModel: QuickLinkViewModel,
-    downloadFileViewModel: DownloadFileViewModel,
 ) {
     var selectedScreen by remember { mutableStateOf(Screen.Deeplink) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -96,7 +93,10 @@ fun MainScreen(
                         dynamicFeature = DynamicFeature.QR_SCANNER,
                         viewModel = viewModel
                     )
-                    Screen.DownloadFile -> DownloadFileScreen(downloadFileViewModel)
+                    Screen.DownloadFile -> DynamicFeatureWrapper(
+                        dynamicFeature = DynamicFeature.DOWNLOAD_FILE,
+                        viewModel = viewModel
+                    )
                 }
             }
         }

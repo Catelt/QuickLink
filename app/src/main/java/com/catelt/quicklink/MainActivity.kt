@@ -10,23 +10,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.runtime.LaunchedEffect
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.catelt.quicklink.data.QuickLinkDataStore
 import com.catelt.quicklink.data.QuickLinkDataStoreImpl
 import com.catelt.quicklink.presentation.MainScreen
-import com.catelt.quicklink.presentation.filemanager.DownloadFileViewModel
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkEvent
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import com.catelt.quicklink.ui.theme.QuickLinkTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    private val downloadFileViewModel: DownloadFileViewModel by viewModels {
-        DownloadFileViewModel.createFactory()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -56,21 +50,15 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            LaunchedEffect(Unit) {
-                downloadFileViewModel.recoverExistingDownloads(this@MainActivity.baseContext)
-            }
-
             QuickLinkTheme {
                 MainScreen(
                     viewModel = quickLinkViewModel,
-                    downloadFileViewModel = downloadFileViewModel,
                 )
             }
         }
     }
 
     override fun onDestroy() {
-        downloadFileViewModel.unregisterReceiver(this)
         super.onDestroy()
     }
 
