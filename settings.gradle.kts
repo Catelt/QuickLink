@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "QuickLink"
 include(":app")
- 
+include(":scanqr")
+include(":deeplink")

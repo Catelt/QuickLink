@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.deeplink
+package com.catelt.deeplink
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -41,4 +41,4 @@ fun DeeplinkScreen(
             }
         )
     }
-}
+} 

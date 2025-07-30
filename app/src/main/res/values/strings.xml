@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Quick Link</string>
+    <string name="title_scanqr">ScanQR</string>
+    <string name="title_deeplink">Deeplink</string>
 </resources>

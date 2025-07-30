@@ -32,12 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
+import com.catelt.quicklink.presentation.component.DynamicFeature
+import com.catelt.quicklink.presentation.component.DynamicFeatureWrapper
 import com.catelt.quicklink.presentation.filemanager.DownloadFileScreen
 import com.catelt.quicklink.presentation.filemanager.DownloadFileViewModel
 import com.catelt.quicklink.presentation.model.Screen
 import com.catelt.quicklink.presentation.qr_code.QrCodeScreen
-import com.catelt.quicklink.presentation.scanqr.ScanQRScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
 
@@ -85,9 +85,15 @@ fun MainScreen(
                     .imePadding()
             ) {
                 when (selectedScreen) {
-                    Screen.Deeplink -> DeeplinkScreen(viewModel)
+                    Screen.Deeplink -> DynamicFeatureWrapper(
+                        dynamicFeature = DynamicFeature.DEEPLINK,
+                        viewModel = viewModel
+                    )
                     Screen.QrCode -> QrCodeScreen(viewModel)
-                    Screen.ScanQr -> ScanQRScreen(viewModel)
+                    Screen.ScanQr -> DynamicFeatureWrapper(
+                        dynamicFeature = DynamicFeature.QR_SCANNER,
+                        viewModel = viewModel
+                    )
                     Screen.DownloadFile -> DownloadFileScreen(downloadFileViewModel)
                 }
             }

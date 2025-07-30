@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.scanqr
+package com.catelt.scanqr
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

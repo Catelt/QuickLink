@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.scanqr
+package com.catelt.scanqr
 
 import android.Manifest
 import android.content.pm.PackageManager
