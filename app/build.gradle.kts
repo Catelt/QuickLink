@@ -25,7 +25,7 @@ android {
         }
     }
 
-    dynamicFeatures += setOf(":scanqr", ":deeplink")
+    dynamicFeatures += setOf(":scanqr", ":deeplink", ":qrcode")
 }
 
 dependencies {

@@ -18,5 +18,10 @@ enum class DynamicFeature(
         moduleName = "deeplink",
         featureName = "Deeplink",
         implementationClassName = "com.catelt.deeplink.DeeplinkImpl"
+    ),
+    QR_CODE(
+        moduleName = "qrcode",
+        featureName = "QR Code Generator",
+        implementationClassName = "com.catelt.qrcode.QrCodeImpl"
     )
 } 

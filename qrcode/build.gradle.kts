@@ -2,7 +2,7 @@ plugins {
     id("android-dynamic-base")
 }
 android {
-    namespace = "com.catelt.deeplink"
+    namespace = "com.catelt.qrcode"
 }
 
 dependencies {

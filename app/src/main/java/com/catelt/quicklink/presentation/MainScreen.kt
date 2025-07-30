@@ -37,7 +37,6 @@ import com.catelt.quicklink.presentation.component.DynamicFeatureWrapper
 import com.catelt.quicklink.presentation.filemanager.DownloadFileScreen
 import com.catelt.quicklink.presentation.filemanager.DownloadFileViewModel
 import com.catelt.quicklink.presentation.model.Screen
-import com.catelt.quicklink.presentation.qr_code.QrCodeScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
 
@@ -89,7 +88,10 @@ fun MainScreen(
                         dynamicFeature = DynamicFeature.DEEPLINK,
                         viewModel = viewModel
                     )
-                    Screen.QrCode -> QrCodeScreen(viewModel)
+                    Screen.QrCode -> DynamicFeatureWrapper(
+                        dynamicFeature = DynamicFeature.QR_CODE,
+                        viewModel = viewModel
+                    )
                     Screen.ScanQr -> DynamicFeatureWrapper(
                         dynamicFeature = DynamicFeature.QR_SCANNER,
                         viewModel = viewModel

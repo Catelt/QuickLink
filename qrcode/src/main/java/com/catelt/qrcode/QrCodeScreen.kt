@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.qr_code
+package com.catelt.qrcode
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -126,6 +126,4 @@ fun QrCodeScreen(
             }
         )
     }
-}
-
-
+} 

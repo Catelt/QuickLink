@@ -23,3 +23,4 @@ rootProject.name = "QuickLink"
 include(":app")
 include(":scanqr")
 include(":deeplink")
+include(":qrcode")
