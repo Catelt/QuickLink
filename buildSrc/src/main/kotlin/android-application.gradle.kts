@@ -12,7 +12,7 @@ android {
         applicationId = "com.catelt.quicklink"
         minSdk = Dependencies.minSdk
         targetSdk = Dependencies.targetSdk
-        versionCode = 105
+        versionCode = 106
         versionName = "1.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -57,8 +57,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-
-    implementation("com.google.android.gms:play-services-base:${Dependencies.Versions.playServicesBase}")
 
     testImplementation("junit:junit:${Dependencies.Versions.junit}")
     androidTestImplementation("androidx.test.ext:junit:${Dependencies.Versions.junitVersion}")

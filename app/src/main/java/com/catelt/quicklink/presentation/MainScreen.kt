@@ -34,7 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.catelt.quicklink.presentation.component.DynamicFeature
 import com.catelt.quicklink.presentation.component.DynamicFeatureWrapper
+import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
 import com.catelt.quicklink.presentation.model.Screen
+import com.catelt.quicklink.presentation.qrcode.QrCodeScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
 
@@ -81,14 +83,8 @@ fun MainScreen(
                     .imePadding()
             ) {
                 when (selectedScreen) {
-                    Screen.Deeplink -> DynamicFeatureWrapper(
-                        dynamicFeature = DynamicFeature.DEEPLINK,
-                        viewModel = viewModel
-                    )
-                    Screen.QrCode -> DynamicFeatureWrapper(
-                        dynamicFeature = DynamicFeature.QR_CODE,
-                        viewModel = viewModel
-                    )
+                    Screen.Deeplink -> DeeplinkScreen(viewModel)
+                    Screen.QrCode -> QrCodeScreen(viewModel)
                     Screen.ScanQr -> DynamicFeatureWrapper(
                         dynamicFeature = DynamicFeature.QR_SCANNER,
                         viewModel = viewModel

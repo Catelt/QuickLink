@@ -1,4 +1,4 @@
-package com.catelt.qrcode
+package com.catelt.quicklink.presentation.qrcode
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image

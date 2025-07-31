@@ -12,7 +12,7 @@ dependencies {
     implementation("androidx.camera:camera-view:${Dependencies.Versions.cameraCamera2}")
 
     // ML Kit for barcode scanning
-    implementation("com.google.mlkit:barcode-scanning:${Dependencies.Versions.barcodeScanning}")
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${Dependencies.Versions.barcodeScanning}")
 
     // Main app dependency to access interfaces and viewmodels
     implementation(project(":app"))

@@ -14,16 +14,6 @@ enum class DynamicFeature(
         featureName = "QR Scanner",
         implementationClassName = "com.catelt.scanqr.QRScannerImpl"
     ),
-    DEEPLINK(
-        moduleName = "deeplink",
-        featureName = "Deeplink",
-        implementationClassName = "com.catelt.deeplink.DeeplinkImpl"
-    ),
-    QR_CODE(
-        moduleName = "qrcode",
-        featureName = "QR Code Generator",
-        implementationClassName = "com.catelt.qrcode.QrCodeImpl"
-    ),
     DOWNLOAD_FILE(
         moduleName = "downloadfile",
         featureName = "File Downloader",

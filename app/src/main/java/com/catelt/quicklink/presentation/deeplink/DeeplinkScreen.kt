@@ -1,4 +1,4 @@
-package com.catelt.deeplink
+package com.catelt.quicklink.presentation.deeplink
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*

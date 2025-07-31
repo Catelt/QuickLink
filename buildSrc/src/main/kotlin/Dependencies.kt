@@ -4,7 +4,7 @@ object Dependencies {
     const val targetSdk = 35
     
     object Versions {
-        const val barcodeScanning = "17.3.0"
+        const val barcodeScanning = "18.3.1"
         const val cameraCamera2 = "1.4.2"
         const val okhttp = "4.12.0"
         const val zxingCore = "3.5.1"
@@ -19,6 +19,5 @@ object Dependencies {
         const val gson = "2.12.1"
         const val workRuntimeKtx = "2.10.1"
         const val featureDelivery = "2.1.0"
-        const val playServicesBase = "18.7.2"
     }
 } 
