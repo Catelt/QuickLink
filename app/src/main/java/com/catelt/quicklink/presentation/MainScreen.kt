@@ -32,8 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.catelt.quicklink.presentation.component.DynamicFeature
-import com.catelt.quicklink.presentation.component.DynamicFeatureWrapper
+import com.catelt.downloadfile.DownloadFileScreen
 import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
 import com.catelt.quicklink.presentation.model.Screen
 import com.catelt.quicklink.presentation.qrcode.QrCodeScreen
@@ -87,10 +86,7 @@ fun MainScreen(
                     Screen.Deeplink -> DeeplinkScreen(viewModel)
                     Screen.QrCode -> QrCodeScreen(viewModel)
                     Screen.ScanQr -> ScanQRScreen(viewModel)
-                    Screen.DownloadFile -> DynamicFeatureWrapper(
-                        dynamicFeature = DynamicFeature.DOWNLOAD_FILE,
-                        viewModel = viewModel
-                    )
+                    Screen.DownloadFile -> DownloadFileScreen()
                 }
             }
         }

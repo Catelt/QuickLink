@@ -23,7 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.catelt.quicklink.presentation.component.BaseOutlinedTextField
+import com.catelt.component.BaseOutlinedTextField
 import java.util.Locale
 
 @Composable

@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.component
+package com.catelt.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn

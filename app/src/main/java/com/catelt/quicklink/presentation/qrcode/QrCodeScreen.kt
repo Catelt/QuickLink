@@ -27,9 +27,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.catelt.component.InputLinkComponent
+import com.catelt.component.StoredLinksComponent
 import com.catelt.quicklink.R
-import com.catelt.quicklink.presentation.component.InputLinkComponent
-import com.catelt.quicklink.presentation.component.StoredLinksComponent
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import com.catelt.quicklink.utils.QrCodeUtil
 

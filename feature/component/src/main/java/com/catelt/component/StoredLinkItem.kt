@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.component
+package com.catelt.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.catelt.quicklink.R
 
 @Composable
 fun StoredLinkItem(

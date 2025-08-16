@@ -21,7 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class whateverpackagename.** { *; }
-
-# Preserve the DynamicFeatureComposable interface and its implementations
--keep interface com.catelt.quicklink.presentation.component.DynamicFeatureComposable { *; }
--keep class * implements com.catelt.quicklink.presentation.component.DynamicFeatureComposable { *; }
+-dontwarn okio.Socket

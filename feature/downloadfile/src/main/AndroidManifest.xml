@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:dist="http://schemas.android.com/apk/distribution"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -11,18 +10,7 @@
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
 
-    <dist:module
-        dist:instant="false"
-        dist:title="@string/title_downloadfile">
-        <dist:delivery>
-            <dist:on-demand />
-        </dist:delivery>
-        <dist:fusing dist:include="true" />
-    </dist:module>
-
-    <application
-        android:icon="@mipmap/ic_launcher"
-        android:hasCode="false">
+    <application>
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"
             android:foregroundServiceType="dataSync"

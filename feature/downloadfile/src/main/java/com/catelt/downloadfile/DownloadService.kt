@@ -31,8 +31,8 @@ class DownloadService : Service() {
         private const val FOREGROUND_SERVICE_ID = 1001
 
         // Intent actions
-        const val ACTION_START_DOWNLOAD = "com.yourapp.download.START_DOWNLOAD"
-        const val ACTION_CANCEL_DOWNLOAD = "com.yourapp.download.CANCEL_DOWNLOAD"
+        const val ACTION_START_DOWNLOAD = "com.catelt.download.START_DOWNLOAD"
+        const val ACTION_CANCEL_DOWNLOAD = "com.catelt.download.CANCEL_DOWNLOAD"
 
         // Intent extras
         const val EXTRA_URL = "extra_url"
@@ -40,9 +40,9 @@ class DownloadService : Service() {
         const val EXTRA_DOWNLOAD_ID = "extra_download_id"
 
         // Broadcast actions
-        const val BROADCAST_DOWNLOAD_PROGRESS = "com.yourapp.download.PROGRESS"
-        const val BROADCAST_DOWNLOAD_COMPLETE = "com.yourapp.download.COMPLETE"
-        const val BROADCAST_DOWNLOAD_ERROR = "com.yourapp.download.ERROR"
+        const val BROADCAST_DOWNLOAD_PROGRESS = "com.catelt.download.PROGRESS"
+        const val BROADCAST_DOWNLOAD_COMPLETE = "com.catelt.download.COMPLETE"
+        const val BROADCAST_DOWNLOAD_ERROR = "com.catelt.download.ERROR"
 
         // Broadcast extras
         const val EXTRA_PROGRESS = "extra_progress"

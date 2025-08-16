@@ -23,7 +23,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/downloadfile" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/component" />
+            <option value="$PROJECT_DIR$/feature/downloadfile" />
           </set>
         </option>
       </GradleProjectSettings>

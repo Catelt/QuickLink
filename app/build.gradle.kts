@@ -25,7 +25,6 @@ android {
         }
     }
 
-    dynamicFeatures += setOf(":downloadfile")
 }
 
 dependencies {
@@ -33,12 +32,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:${Dependencies.Versions.datastore}")
     implementation("com.google.code.gson:gson:${Dependencies.Versions.gson}")
 
-    // Dynamic feature modules
-    implementation("com.google.android.play:feature-delivery:${Dependencies.Versions.featureDelivery}")
-    implementation(kotlin("reflect"))
-
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.3.0")
-    implementation("androidx.tracing:tracing-ktx:1.3.0")
+    // Regular module dependencies
+    implementation(project(Dependencies.Feature.COMPONENT))
+    implementation(project(Dependencies.Feature.DOWNLOAD_FILE))
 
     // CameraX
     implementation("androidx.camera:camera-camera2:${Dependencies.Versions.cameraCamera2}")

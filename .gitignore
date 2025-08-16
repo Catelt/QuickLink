@@ -60,3 +60,5 @@ lint/tmp/
 
 # MacOS
 .DS_Store
+
+.cursor
