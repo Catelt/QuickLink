@@ -9,11 +9,6 @@ enum class DynamicFeature(
     val featureName: String,
     val implementationClassName: String
 ) {
-    QR_SCANNER(
-        moduleName = "scanqr",
-        featureName = "QR Scanner",
-        implementationClassName = "com.catelt.scanqr.QRScannerImpl"
-    ),
     DOWNLOAD_FILE(
         moduleName = "downloadfile",
         featureName = "File Downloader",

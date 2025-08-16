@@ -1,4 +1,4 @@
-package com.catelt.scanqr
+package com.catelt.quicklink.presentation.scanqr
 
 import androidx.compose.runtime.Composable
 import com.catelt.quicklink.presentation.component.DynamicFeatureComposable

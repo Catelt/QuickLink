@@ -1,4 +1,4 @@
-package com.catelt.scanqr
+package com.catelt.quicklink.presentation.scanqr
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

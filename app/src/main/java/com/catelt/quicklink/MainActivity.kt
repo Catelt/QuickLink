@@ -58,10 +58,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 
     private fun handleDeepLink(url: String): Boolean {
         try {

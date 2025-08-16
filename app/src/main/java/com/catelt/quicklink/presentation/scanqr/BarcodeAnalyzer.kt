@@ -1,4 +1,4 @@
-package com.catelt.scanqr
+package com.catelt.quicklink.presentation.scanqr
 
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
