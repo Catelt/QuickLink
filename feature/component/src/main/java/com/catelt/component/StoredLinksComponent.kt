@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.itemsIndexed
 
 @Composable
 fun StoredLinksComponent(
@@ -25,10 +26,13 @@ fun StoredLinksComponent(
     LazyColumn(
         modifier = modifier
     ) {
-        items(data.size) { index ->
-            val link = data[index]
+        itemsIndexed(
+            items = data,
+            key = { _, item -> item }
+        ) { _, link ->
             StoredLinkItem(
-                link = data[index],
+                modifier = Modifier.animateItem(),
+                link = link,
                 onPlayClick = {
                     onPlayClick(link)
                 },

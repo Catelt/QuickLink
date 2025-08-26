@@ -23,13 +23,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StoredLinkItem(
+    modifier: Modifier = Modifier,
     link: String,
     onPlayClick: () -> Unit = {},
     onCopyToClipboardClick: () -> Unit = {},
     onDeletedClick: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 4.dp)
             .sizeIn(minHeight = 50.dp)
             .fillMaxWidth()
