@@ -106,7 +106,8 @@ class QuickLinkViewModel(
     private fun loadLinksLocal() {
         viewModelScope.launch {
             dataStore.links.collectLatest { savedLinks ->
-                _uiState.value = QuickLinkState(links = savedLinks.toList())
+                val urls = savedLinks.map { it.url }
+                _uiState.value = QuickLinkState(links = urls)
             }
         }
     }

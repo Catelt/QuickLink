@@ -22,15 +22,13 @@ fun StoredLinksComponent(
         style = MaterialTheme.typography.titleLarge
     )
 
-    val links = data.reversed()
-
     LazyColumn(
         modifier = modifier
     ) {
-        items(links.size) { index ->
-            val link = links[index]
+        items(data.size) { index ->
+            val link = data[index]
             StoredLinkItem(
-                link = links[index],
+                link = data[index],
                 onPlayClick = {
                     onPlayClick(link)
                 },
