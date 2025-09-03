@@ -2,9 +2,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("android-application")
 }
 
 val keystorePropertiesFile = rootProject.file("key.properties")
@@ -12,19 +10,6 @@ val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
-    namespace = "com.catelt.quicklink"
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = "com.catelt.quicklink"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 103
-        versionName = "1.6"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
@@ -37,62 +22,25 @@ android {
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
+    }
 
-        getByName("debug") {
-            applicationIdSuffix = ".dev"
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation("com.google.zxing:core:${Dependencies.Versions.zxingCore}")
+    implementation("androidx.datastore:datastore-preferences:${Dependencies.Versions.datastore}")
+    implementation("com.google.code.gson:gson:${Dependencies.Versions.gson}")
 
-    implementation(libs.zxing.core)
-
-    implementation(libs.androidx.datastore)
-
-    implementation(libs.google.gson)
+    // Regular module dependencies
+    implementation(project(Dependencies.Feature.COMPONENT))
+    implementation(project(Dependencies.Feature.DOWNLOAD_FILE))
 
     // CameraX
-    implementation(libs.androidx.camera.camera2)
-    implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera.view)
+    implementation("androidx.camera:camera-camera2:${Dependencies.Versions.cameraCamera2}")
+    implementation("androidx.camera:camera-lifecycle:${Dependencies.Versions.cameraCamera2}")
+    implementation("androidx.camera:camera-view:${Dependencies.Versions.cameraCamera2}")
 
     // ML Kit for barcode scanning
-    implementation(libs.barcode.scanning)
-
-    implementation(libs.okhttp)
-    implementation(libs.androidx.work.runtime.ktx)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${Dependencies.Versions.barcodeScanning}")
 }

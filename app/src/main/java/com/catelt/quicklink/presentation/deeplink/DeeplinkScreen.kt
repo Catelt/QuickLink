@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.catelt.component.InputLinkComponent
+import com.catelt.component.StoredLinksComponent
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
-import com.catelt.quicklink.presentation.component.InputLinkComponent
-import com.catelt.quicklink.presentation.component.StoredLinksComponent
 
 @Composable
 fun DeeplinkScreen(
@@ -41,4 +41,4 @@ fun DeeplinkScreen(
             }
         )
     }
-}
+} 

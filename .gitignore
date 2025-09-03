@@ -29,6 +29,7 @@ proguard/
 
 # IntelliJ
 *.iml
+.idea/
 .idea/caches
 .idea/libraries
 .idea/modules.xml
@@ -59,3 +60,5 @@ lint/tmp/
 
 # MacOS
 .DS_Store
+
+.cursor

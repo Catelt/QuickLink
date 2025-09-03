@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.component
+package com.catelt.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.itemsIndexed
 
 @Composable
 fun StoredLinksComponent(
@@ -22,15 +23,16 @@ fun StoredLinksComponent(
         style = MaterialTheme.typography.titleLarge
     )
 
-    val links = data.reversed()
-
     LazyColumn(
         modifier = modifier
     ) {
-        items(links.size) { index ->
-            val link = links[index]
+        itemsIndexed(
+            items = data,
+            key = { _, item -> item }
+        ) { _, link ->
             StoredLinkItem(
-                link = links[index],
+                modifier = Modifier.animateItem(),
+                link = link,
                 onPlayClick = {
                     onPlayClick(link)
                 },

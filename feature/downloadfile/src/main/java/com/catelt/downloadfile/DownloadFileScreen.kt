@@ -1,4 +1,4 @@
-package com.catelt.quicklink.presentation.filemanager
+package com.catelt.downloadfile
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -19,19 +19,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.catelt.quicklink.presentation.component.BaseOutlinedTextField
-import com.catelt.quicklink.presentation.component.InputLinkComponent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.catelt.component.BaseOutlinedTextField
 import java.util.Locale
 
 @Composable
 fun DownloadFileScreen(
-    viewModel: DownloadFileViewModel
+    viewModel: DownloadFileViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val downloadState by viewModel.downloadState.collectAsState()
 
     val url by viewModel.urlText.collectAsState()
     val filename by viewModel.filenameText.collectAsState()
+
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> {
+                    viewModel.recoverExistingDownloads(context)
+                }
+                Lifecycle.Event.ON_DESTROY -> {
+                    viewModel.unregisterReceiver(context)
+                }
+                else -> {}
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     // Handle permissions
     val requiredPermissions = remember {
@@ -310,4 +336,4 @@ fun DownloadFileScreen(
             }
         }
     }
-}
+} 

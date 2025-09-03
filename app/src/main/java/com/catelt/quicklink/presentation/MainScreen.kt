@@ -32,11 +32,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.catelt.downloadfile.DownloadFileScreen
 import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
-import com.catelt.quicklink.presentation.filemanager.DownloadFileScreen
-import com.catelt.quicklink.presentation.filemanager.DownloadFileViewModel
 import com.catelt.quicklink.presentation.model.Screen
-import com.catelt.quicklink.presentation.qr_code.QrCodeScreen
+import com.catelt.quicklink.presentation.qrcode.QrCodeScreen
 import com.catelt.quicklink.presentation.scanqr.ScanQRScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
 import kotlinx.coroutines.launch
@@ -45,7 +44,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     viewModel: QuickLinkViewModel,
-    downloadFileViewModel: DownloadFileViewModel,
 ) {
     var selectedScreen by remember { mutableStateOf(Screen.Deeplink) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -88,7 +86,7 @@ fun MainScreen(
                     Screen.Deeplink -> DeeplinkScreen(viewModel)
                     Screen.QrCode -> QrCodeScreen(viewModel)
                     Screen.ScanQr -> ScanQRScreen(viewModel)
-                    Screen.DownloadFile -> DownloadFileScreen(downloadFileViewModel)
+                    Screen.DownloadFile -> DownloadFileScreen()
                 }
             }
         }

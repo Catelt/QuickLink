@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScanResultBottomSheet(
