@@ -3,6 +3,8 @@
 QuickLink is an Android app built with Kotlin and Jetpack Compose that helps you **open, share, and manage links quickly**.
 It supports deep links, QR codes (generate & scan), and simple file downloads from URLs.
 
+[**Get it on Google Play**](https://play.google.com/store/apps/details?id=com.catelt.quicklink)
+
 ## Features
 
 - **Deep link opener**
