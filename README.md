@@ -46,7 +46,7 @@ It supports deep links, QR codes (generate & scan), and simple file downloads fr
 ### Clone the project
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Catelt/QuickLink.git
 cd QuickLink
 ```
 
