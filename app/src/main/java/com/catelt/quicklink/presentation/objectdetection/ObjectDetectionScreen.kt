@@ -17,13 +17,16 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +62,14 @@ fun ObjectDetectionScreen() {
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     val executor = remember { Executors.newSingleThreadExecutor() }
     val mainExecutor = remember { ContextCompat.getMainExecutor(context) }
+    val detectorOptions = remember {
+        ObjectDetectorOptions.Builder()
+            .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
+            .enableClassification()
+            .enableMultipleObjects()
+            .build()
+    }
+    val objectDetector = remember { ObjectDetection.getClient(detectorOptions) }
 
     var hasCameraPermission by remember {
         mutableStateOf(
@@ -83,6 +94,7 @@ fun ObjectDetectionScreen() {
     var zoomRatio by remember { mutableStateOf(1f) }
     var minZoom by remember { mutableStateOf(1f) }
     var maxZoom by remember { mutableStateOf(1f) }
+    var detectionPaused by remember { mutableStateOf(false) }
 
     fun bindCamera(provider: ProcessCameraProvider) {
         val pv = previewView ?: return
@@ -94,13 +106,6 @@ fun ObjectDetectionScreen() {
         val cameraSelector = CameraSelector.Builder()
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
-
-        val options = ObjectDetectorOptions.Builder()
-            .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
-            .enableClassification()
-            .build()
-
-        val objectDetector = ObjectDetection.getClient(options)
 
         val analysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -115,6 +120,7 @@ fun ObjectDetectionScreen() {
                         if (crop != null) {
                             capturedBitmap = crop
                             segmentedBitmap = null
+                            detectionPaused = true
                             mainExecutor.execute {
                                 cameraProvider?.unbindAll()
                             }
@@ -144,6 +150,18 @@ fun ObjectDetectionScreen() {
             }
         } catch (exc: Exception) {
             exc.printStackTrace()
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            try {
+                analyzerRef?.reset()
+                cameraProvider?.unbindAll()
+                objectDetector.close()
+                executor.shutdown()
+            } catch (_: Exception) {
+            }
         }
     }
 
@@ -209,6 +227,20 @@ fun ObjectDetectionScreen() {
                 }
 
                 if (capturedBitmap == null && segmentedBitmap == null) {
+                    PauseResumeControls(
+                        detectionPaused = detectionPaused,
+                        onPause = {
+                            detectionPaused = true
+                            analyzerRef?.pauseDetection()
+                        },
+                        onResume = {
+                            detectionPaused = false
+                            capturedBitmap = null
+                            segmentedBitmap = null
+                            analyzerRef?.resumeDetection()
+                            restartKey++
+                        }
+                    )
                     ObjectOverlay(
                         detectedObjects = detectedObjects,
                         sourceWidth = sourceWidth,
@@ -257,16 +289,31 @@ fun ObjectDetectionScreen() {
                                 )
                                 Button(
                                     onClick = {
+                                        detectionPaused = false
                                         capturedBitmap = null
                                         segmentedBitmap = null
                                         detectedObjects = emptyList()
-                                        analyzerRef?.reset()
+                                        analyzerRef?.resumeDetection()
                                         restartKey++
                                     },
                                     modifier = Modifier
                                         .padding(top = 16.dp)
                                 ) {
                                     Text("Try again")
+                                }
+                                Button(
+                                    onClick = {
+                                        detectionPaused = false
+                                        capturedBitmap = null
+                                        segmentedBitmap = null
+                                        detectedObjects = emptyList()
+                                        analyzerRef?.resumeDetection()
+                                        restartKey++
+                                    },
+                                    modifier = Modifier
+                                        .padding(top = 8.dp)
+                                ) {
+                                    Text("Resume detection")
                                 }
                             }
                         }
@@ -311,6 +358,31 @@ fun ObjectDetectionScreen() {
                         Text("Grant Permission")
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PauseResumeControls(
+    detectionPaused: Boolean,
+    onPause: () -> Unit,
+    onResume: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.End
+    ) {
+        if (detectionPaused) {
+            Button(onClick = onResume) {
+                Text("Resume detection")
+            }
+        } else {
+            Button(onClick = onPause) {
+                Text("Pause detection")
             }
         }
     }

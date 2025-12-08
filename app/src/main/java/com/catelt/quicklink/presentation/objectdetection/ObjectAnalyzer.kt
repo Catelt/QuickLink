@@ -35,6 +35,14 @@ class ObjectAnalyzer(
         isFrozen = false
     }
 
+    fun pauseDetection() {
+        isFrozen = true
+    }
+
+    fun resumeDetection() {
+        reset()
+    }
+
     override fun analyze(imageProxy: ImageProxy) {
         if (isFrozen) {
             imageProxy.close()
@@ -132,6 +140,9 @@ class ObjectAnalyzer(
                 )
             } catch (_: Exception) {
                 return null
+            } finally {
+                // rawBitmap is no longer needed once a rotated copy exists
+                rawBitmap.recycle()
             }
         } else {
             rawBitmap
@@ -143,15 +154,31 @@ class ObjectAnalyzer(
         val bottom = boundingBox.bottom.coerceAtMost(rotatedBitmap.height)
         val width = (right - left).coerceAtLeast(1)
         val height = (bottom - top).coerceAtLeast(1)
-        return try {
+        val crop = try {
             Bitmap.createBitmap(rotatedBitmap, left, top, width, height)
         } catch (_: Exception) {
             null
+        } finally {
+            if (rotatedBitmap !== rawBitmap) {
+                rotatedBitmap.recycle()
+            }
+        } ?: return null
+
+        if (crop.width <= MAX_DIM && crop.height <= MAX_DIM) return crop
+
+        val scale = minOf(MAX_DIM.toFloat() / crop.width, MAX_DIM.toFloat() / crop.height)
+        val scaledWidth = (crop.width * scale).toInt().coerceAtLeast(1)
+        val scaledHeight = (crop.height * scale).toInt().coerceAtLeast(1)
+        return try {
+            Bitmap.createScaledBitmap(crop, scaledWidth, scaledHeight, true)
+        } catch (_: Exception) {
+            crop
         }
     }
 
     companion object {
         private const val STABLE_MS = 1_000L
+        private const val MAX_DIM = 1920 // avoid OOM on very large crops
     }
 }
 
