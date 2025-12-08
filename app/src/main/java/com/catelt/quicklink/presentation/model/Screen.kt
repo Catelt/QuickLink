@@ -10,5 +10,6 @@ enum class Screen(
     Deeplink("Deeplink", R.drawable.baseline_deeplink),
     QrCode("QR Code", R.drawable.baseline_qr_code),
     ScanQr("QR & Barcode Scanner", R.drawable.baseline_qr_code_scan),
+    ObjectDetection("Object Detection", R.drawable.baseline_object_detection),
     DownloadFile("Download File", R.drawable.baseline_download)
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.catelt.downloadfile.DownloadFileScreen
 import com.catelt.quicklink.presentation.deeplink.DeeplinkScreen
 import com.catelt.quicklink.presentation.model.Screen
+import com.catelt.quicklink.presentation.objectdetection.ObjectDetectionScreen
 import com.catelt.quicklink.presentation.qrcode.QrCodeScreen
 import com.catelt.quicklink.presentation.scanqr.ScanQRScreen
 import com.catelt.quicklink.presentation.viewmodel.QuickLinkViewModel
@@ -86,6 +87,7 @@ fun MainScreen(
                     Screen.Deeplink -> DeeplinkScreen(viewModel)
                     Screen.QrCode -> QrCodeScreen(viewModel)
                     Screen.ScanQr -> ScanQRScreen(viewModel)
+                    Screen.ObjectDetection -> ObjectDetectionScreen()
                     Screen.DownloadFile -> DownloadFileScreen()
                 }
             }

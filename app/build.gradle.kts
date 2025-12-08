@@ -48,4 +48,9 @@ dependencies {
 
     // ML Kit for barcode scanning
     implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${Dependencies.Versions.barcodeScanning}")
+    
+    // ML Kit for object detection
+    implementation("com.google.mlkit:object-detection:17.0.2")
+    // ML Kit subject segmentation (foreground cutout)
+    implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
 }
