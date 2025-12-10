@@ -11,7 +11,6 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Camera
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -36,9 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,9 +43,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.google.mlkit.vision.objects.DetectedObject
-import com.google.mlkit.vision.objects.ObjectDetection
-import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -62,14 +55,6 @@ fun ObjectDetectionScreen() {
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     val executor = remember { Executors.newSingleThreadExecutor() }
     val mainExecutor = remember { ContextCompat.getMainExecutor(context) }
-    val detectorOptions = remember {
-        ObjectDetectorOptions.Builder()
-            .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
-            .enableClassification()
-            .enableMultipleObjects()
-            .build()
-    }
-    val objectDetector = remember { ObjectDetection.getClient(detectorOptions) }
 
     var hasCameraPermission by remember {
         mutableStateOf(
@@ -80,13 +65,27 @@ fun ObjectDetectionScreen() {
         )
     }
 
-    var detectedObjects by remember { mutableStateOf<List<DetectedObject>>(emptyList()) }
-    var sourceWidth by remember { mutableStateOf(0) }
-    var sourceHeight by remember { mutableStateOf(0) }
     var capturedBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var analyzerRef by remember { mutableStateOf<ObjectAnalyzer?>(null) }
     var segmentedBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     val segmentationHelper = remember { SegmentationHelper() }
+    var stableSince by remember { mutableStateOf<Long?>(null) }
+    var captureInFlight by remember { mutableStateOf(false) }
+    val stabilityDetector = remember {
+        StabilityDetector(context) { stable ->
+            val now = System.currentTimeMillis()
+            if (stable) {
+                if (stableSince == null) stableSince = now
+                val since = stableSince
+                if (!captureInFlight && since != null && now - since >= 1_000L) {
+                    captureInFlight = true
+                    analyzerRef?.requestCapture()
+                }
+            } else {
+                stableSince = null
+            }
+        }
+    }
     var cameraProvider by remember { mutableStateOf<ProcessCameraProvider?>(null) }
     var camera by remember { mutableStateOf<Camera?>(null) }
     var previewView by remember { mutableStateOf<PreviewView?>(null) }
@@ -94,7 +93,6 @@ fun ObjectDetectionScreen() {
     var zoomRatio by remember { mutableStateOf(1f) }
     var minZoom by remember { mutableStateOf(1f) }
     var maxZoom by remember { mutableStateOf(1f) }
-    var detectionPaused by remember { mutableStateOf(false) }
 
     fun bindCamera(provider: ProcessCameraProvider) {
         val pv = previewView ?: return
@@ -112,19 +110,15 @@ fun ObjectDetectionScreen() {
             .build()
             .also { analysis ->
                 val analyzer = ObjectAnalyzer(
-                    objectDetector = objectDetector,
-                    onObjectsDetected = { objects, width, height, _, crop ->
-                        detectedObjects = objects
-                        sourceWidth = width
-                        sourceHeight = height
-                        if (crop != null) {
-                            capturedBitmap = crop
-                            segmentedBitmap = null
-                            detectionPaused = true
-                            mainExecutor.execute {
-                                cameraProvider?.unbindAll()
-                            }
+                    onStableImage = { _, _, _, bitmap ->
+                        capturedBitmap = bitmap
+                        segmentedBitmap = null
+                        mainExecutor.execute {
+                            cameraProvider?.unbindAll()
                         }
+                        captureInFlight = false
+                        stableSince = null
+                        stabilityDetector.stop()
                     }
                 )
                 analyzerRef = analyzer
@@ -156,9 +150,9 @@ fun ObjectDetectionScreen() {
     DisposableEffect(Unit) {
         onDispose {
             try {
+                stabilityDetector.stop()
                 analyzerRef?.reset()
                 cameraProvider?.unbindAll()
-                objectDetector.close()
                 executor.shutdown()
             } catch (_: Exception) {
             }
@@ -175,6 +169,16 @@ fun ObjectDetectionScreen() {
     LaunchedEffect(key1 = true) {
         if (!hasCameraPermission) {
             permissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    LaunchedEffect(hasCameraPermission, restartKey) {
+        if (hasCameraPermission) {
+            stableSince = null
+            captureInFlight = false
+            stabilityDetector.start()
+        } else {
+            stabilityDetector.stop()
         }
     }
 
@@ -227,24 +231,7 @@ fun ObjectDetectionScreen() {
                 }
 
                 if (capturedBitmap == null && segmentedBitmap == null) {
-                    PauseResumeControls(
-                        detectionPaused = detectionPaused,
-                        onPause = {
-                            detectionPaused = true
-                            analyzerRef?.pauseDetection()
-                        },
-                        onResume = {
-                            detectionPaused = false
-                            capturedBitmap = null
-                            segmentedBitmap = null
-                            analyzerRef?.resumeDetection()
-                            restartKey++
-                        }
-                    )
-                    ObjectOverlay(
-                        detectedObjects = detectedObjects,
-                        sourceWidth = sourceWidth,
-                        sourceHeight = sourceHeight,
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .pointerInput(camera, previewView) {
@@ -289,10 +276,11 @@ fun ObjectDetectionScreen() {
                                 )
                                 Button(
                                     onClick = {
-                                        detectionPaused = false
                                         capturedBitmap = null
                                         segmentedBitmap = null
-                                        detectedObjects = emptyList()
+                                        captureInFlight = false
+                                        stableSince = null
+                                        stabilityDetector.start()
                                         analyzerRef?.resumeDetection()
                                         restartKey++
                                     },
@@ -301,20 +289,6 @@ fun ObjectDetectionScreen() {
                                 ) {
                                     Text("Try again")
                                 }
-                                Button(
-                                    onClick = {
-                                        detectionPaused = false
-                                        capturedBitmap = null
-                                        segmentedBitmap = null
-                                        detectedObjects = emptyList()
-                                        analyzerRef?.resumeDetection()
-                                        restartKey++
-                                    },
-                                    modifier = Modifier
-                                        .padding(top = 8.dp)
-                                ) {
-                                    Text("Resume detection")
-                                }
                             }
                         }
                     }
@@ -322,7 +296,7 @@ fun ObjectDetectionScreen() {
             }
 
             Text(
-                text = "Point camera at objects to detect",
+                text = "Hold camera steady to capture",
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
@@ -362,81 +336,3 @@ fun ObjectDetectionScreen() {
         }
     }
 }
-
-@Composable
-private fun PauseResumeControls(
-    detectionPaused: Boolean,
-    onPause: () -> Unit,
-    onResume: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.End
-    ) {
-        if (detectionPaused) {
-            Button(onClick = onResume) {
-                Text("Resume detection")
-            }
-        } else {
-            Button(onClick = onPause) {
-                Text("Pause detection")
-            }
-        }
-    }
-}
-
-@Composable
-fun ObjectOverlay(
-    detectedObjects: List<DetectedObject>,
-    sourceWidth: Int,
-    sourceHeight: Int,
-    modifier: Modifier = Modifier
-) {
-    Canvas(modifier = modifier) {
-        // Avoid drawing until we know the source dimensions
-        if (sourceWidth == 0 || sourceHeight == 0) return@Canvas
-
-        val canvasWidth = size.width
-        val canvasHeight = size.height
-
-        // ML Kit boxes are in the image coordinate space; map to the preview
-        val scale = kotlin.math.max(
-            canvasWidth / sourceWidth,
-            canvasHeight / sourceHeight
-        )
-        val offsetX = (canvasWidth - sourceWidth * scale) / 2f
-        val offsetY = (canvasHeight - sourceHeight * scale) / 2f
-
-        detectedObjects.forEach { obj ->
-            val boundingBox = obj.boundingBox
-            
-            // Bounding box mapped into the view space
-            val left = offsetX + boundingBox.left * scale
-            val top = offsetY + boundingBox.top * scale
-            val right = offsetX + boundingBox.right * scale
-            val bottom = offsetY + boundingBox.bottom * scale
-
-            // Draw bounding box
-            drawRect(
-                color = androidx.compose.ui.graphics.Color.Green,
-                topLeft = Offset(left, top),
-                size = Size(right - left, bottom - top),
-                style = Stroke(width = 4f)
-            )
-
-            // Draw tracking ID if available
-            obj.trackingId?.let { trackingId ->
-                // Draw a small circle for tracking ID
-                drawCircle(
-                    color = androidx.compose.ui.graphics.Color.Red,
-                    radius = 8f,
-                    center = Offset(left, top)
-                )
-            }
-        }
-    }
-}
-
