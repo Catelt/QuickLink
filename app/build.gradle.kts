@@ -39,7 +39,6 @@ dependencies {
 
     // Regular module dependencies
     implementation(project(Dependencies.Feature.COMPONENT))
-    implementation(project(Dependencies.Feature.DOWNLOAD_FILE))
 
     // CameraX
     implementation("androidx.camera:camera-camera2:${Dependencies.Versions.cameraCamera2}")
